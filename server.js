@@ -1,21 +1,28 @@
-// * Requiring our packages
+// * Bringing in required packages
 var express = require("express");
 var exphbs = require("express-handlebars");
+var methodOverride = require('method-override');
 
-// * PORT and app config
-var PORT = process.env.PORT || 8000;
-var app = express();
+// * App config
+var app = express()
 
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// * Port config
+var PORT = 8080 || process.env.PORT;
+
+// * Handlebars config
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// * Importing routers
-var routes = require("./controllers/controller");
-app.use(routes);
+// * Middleware config
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
+app.use(methodOverride('_method'));
 
-app.listen(PORT, function() {
-  console.log("Server listening on: http://localhost:" + PORT);
+// * Requiring our router
+var routes = require('./controllers/controller.js');
+app.use('/', routes);
+
+app.listen(PORT, function(){
+    console.log("App listening on localhost:/"+ PORT);
 });
