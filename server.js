@@ -21,7 +21,7 @@ app.use(methodOverride('_method'));
 
 // * Requiring our router
 var routes = require('./controllers/controller.js');
-app.use('/', routes);
+app.use(routes);
 
 app.listen(PORT, function(){
     console.log("App listening on localhost:/"+ PORT);
