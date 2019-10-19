@@ -7,7 +7,7 @@ var methodOverride = require('method-override');
 var app = express()
 
 // * Port config
-var PORT = 8080 || process.env.PORT;
+var PORT = process.env.PORT || 8080;
 
 // * Handlebars config
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
