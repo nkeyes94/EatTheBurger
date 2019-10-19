@@ -1,28 +1,24 @@
-// * Bringing in required packages
+// * Requiring our packages
 var express = require("express");
 var exphbs = require("express-handlebars");
-var methodOverride = require('method-override');
 
-// * App config
-var app = express()
+// * PORT and app config
+var PORT = process.env.PORT || 8000;
+var app = express();
 
-// * Port config
-var PORT = 8080 || process.env.PORT;
-
-// * Handlebars config
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// * Middleware config
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
-app.use(methodOverride('_method'));
+// * Importing routers
+var routes = require("./controllers/burgers_controller");
+app.use(routes);
 
-// * Requiring our router
-var routes = require('./controllers/controller.js');
-app.use('/', routes);
-
-app.listen(PORT, function(){
-    console.log("App listening on localhost:/"+ PORT);
+// Start our server so that it can begin listening to client requests.
+app.listen(PORT, function() {
+  // Log (server-side) when our server has started
+  console.log("Server listening on: http://localhost:" + PORT);
 });
